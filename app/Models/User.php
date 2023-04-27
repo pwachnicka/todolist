@@ -2,32 +2,43 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticableTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class User extends Model implements Authenticatable
 {
-    use Authenticatable, Authorizable, HasFactory;
+    use AuthenticableTrait;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'username',
+        'email',
+        'password',
+        'userimage'
     ];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
-     * @var string[]
+     * @var array
      */
     protected $hidden = [
-        'password',
+        'password'
     ];
+
+    /**
+     * Get the tasks for the user.
+     */
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
 }
