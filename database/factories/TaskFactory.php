@@ -22,7 +22,7 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence(5, true),
+            'title' => $this->faker->text(50),
             'category' => $this->faker->randomElement(['work', 'home', 'passion', 'education']),
             'description' => $this->faker->text(255)
         ];
